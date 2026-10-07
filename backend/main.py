@@ -22,34 +22,50 @@ def get_db():
 
 
 def ingest_rows(rows, db: Session):
-    rows_read = inserted = merged = 0
+    # Pass 1: total the rows inside this file per indicator
+    # (a duplicate row inside one file adds its count)
+    agg = {}
+    rows_read = 0
     for row in rows:
         rows_read += 1
-        ioc_type = row["type"].strip().lower()
-        value = row["value"].strip().lower()
+        key = (row["type"].strip().lower(), row["value"].strip().lower())
         count = int(row["count"] or 1)
+        first_seen = row["first_seen"].strip()
+        if key in agg:
+            agg[key]["count"] += count
+            if first_seen < agg[key]["first_seen"]:
+                agg[key]["first_seen"] = first_seen
+        else:
+            agg[key] = {
+                "count": count,
+                "first_seen": first_seen,
+                "source": row["source"].strip(),
+                "malware_family": row["malware_family"].strip(),
+            }
 
+    # Pass 2: compare with the database.
+    # Keep the larger count, so re-uploading the same file changes nothing.
+    inserted = 0
+    for (ioc_type, value), a in agg.items():
         existing = db.query(Indicator).filter_by(type=ioc_type, value=value).first()
         if existing:
-            # duplicate: merge instead of storing twice
-            existing.times_seen += count
-            if row["first_seen"] < existing.first_seen:
-                existing.first_seen = row["first_seen"]
-            merged += 1
+            existing.times_seen = max(existing.times_seen or 0, a["count"])
+            if a["first_seen"] < existing.first_seen:
+                existing.first_seen = a["first_seen"]
         else:
             db.add(
                 Indicator(
                     type=ioc_type,
                     value=value,
-                    source=row["source"].strip(),
-                    first_seen=row["first_seen"].strip(),
-                    times_seen=count,
-                    malware_family=row["malware_family"].strip(),
+                    source=a["source"],
+                    first_seen=a["first_seen"],
+                    times_seen=a["count"],
+                    malware_family=a["malware_family"],
                 )
             )
             inserted += 1
     db.commit()
-    return {"rows_read": rows_read, "inserted": inserted, "duplicates_merged": merged}
+    return {"rows_read": rows_read, "inserted": inserted, "duplicates_merged": rows_read - inserted}
 
 
 def read_csv_text(text: str):
@@ -218,3 +234,21 @@ def export_stix(status: str = "Approved", min_score: int = 0, db: Session = Depe
         media_type="application/stix+json;version=2.1",
         headers={"Content-Disposition": "attachment; filename=threatlens_bundle.json"},
     )
+
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "http://localhost:5175",
+        "http://localhost:5176",
+        "http://localhost:5177",
+        "http://127.0.0.1:5177",
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

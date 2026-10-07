@@ -7,3 +7,6 @@ ThreatLens_Report.pdf
 node_modules/
 frontend/dist/
 .env
+node_modules/
+*.bak*
+dist/
