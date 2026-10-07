@@ -10,3 +10,11 @@ frontend/dist/
 node_modules/
 *.bak*
 dist/
+
+node_modules/
+*.bak*
+dist/
+
+node_modules/
+*.bak*
+dist/
