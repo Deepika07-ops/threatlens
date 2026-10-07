@@ -1,0 +1,54 @@
+type,value,source,first_seen,count,malware_family
+domain,pay-secure.info,AbuseIPDB,2026-09-05,65,Emotet
+domain,verify-verify.xyz,AlienVault OTX,2026-10-03,30,Emotet
+domain,secure-account.click,AlienVault OTX,2026-10-06,119,LockBit
+ip,164.29.7.190,AbuseIPDB,2026-09-20,32,Mirai
+hash,e173e4eaede5fe878f78e2978aa2447c,AbuseIPDB,2026-08-24,91,Mirai
+ip,189.27.174.190,Internal Honeypot,2026-08-11,29,Cobalt Strike
+ip,164.29.7.190,AbuseIPDB,2026-09-20,29,Mirai
+ip,222.26.98.72,PhishTank,2026-09-08,21,LockBit
+ip,109.9.8.24,AbuseIPDB,2026-09-24,65,Cobalt Strike
+domain,support-account.click,VirusTotal,2026-09-11,111,QakBot
+ip,91.54.172.69,AlienVault OTX,2026-08-24,78,QakBot
+ip,115.151.72.208,AlienVault OTX,2026-08-13,98,None
+hash,8fed8a728e7eca0fa5f6b8a880627df7,VirusTotal,2026-08-24,83,QakBot
+ip,44.137.187.63,VirusTotal,2026-09-27,49,LockBit
+ip,189.27.174.190,Internal Honeypot,2026-08-11,12,Cobalt Strike
+ip,159.227.221.93,AbuseIPDB,2026-09-01,91,Emotet
+domain,pay-login.top,AlienVault OTX,2026-09-23,44,Emotet
+ip,250.237.97.21,PhishTank,2026-09-02,107,QakBot
+hash,02d4e518ca6eaac8d82f01b721076047,VirusTotal,2026-09-29,86,Emotet
+domain,pay-login.xyz,AlienVault OTX,2026-08-13,20,QakBot
+hash,3766e4d58e72e310275dff6c15c0c8e9,Internal Honeypot,2026-09-10,85,QakBot
+ip,109.9.8.24,AbuseIPDB,2026-09-24,2,Cobalt Strike
+hash,6e8b5359309cc6273931bdb2a0df3dbe,AbuseIPDB,2026-08-23,56,Mirai
+hash,20e32684b27b95e909348334896a68f8,AlienVault OTX,2026-08-11,12,QakBot
+domain,pay-login.ru,AbuseIPDB,2026-08-19,17,QakBot
+domain,pay-verify.ru,Internal Honeypot,2026-09-29,74,AgentTesla
+ip,12.170.59.198,AlienVault OTX,2026-09-19,110,Mirai
+ip,87.27.24.98,PhishTank,2026-10-01,109,LockBit
+hash,dbad3c681d06bd2aa399dac946dc59c0,PhishTank,2026-09-18,27,AgentTesla
+ip,7.144.51.184,Internal Honeypot,2026-08-27,54,Mirai
+ip,155.68.207.12,VirusTotal,2026-08-22,69,Emotet
+ip,103.69.17.55,Internal Honeypot,2026-08-10,113,QakBot
+hash,2ddaed16dc0cf0b9cd7f78df0cac5e40,VirusTotal,2026-08-10,76,Cobalt Strike
+ip,81.55.168.128,VirusTotal,2026-09-12,19,LockBit
+domain,pay-update.info,Internal Honeypot,2026-09-04,55,Mirai
+hash,f469611a11f5125227c3712da86a78c4,PhishTank,2026-08-26,59,LockBit
+domain,update-support.ru,VirusTotal,2026-10-03,49,Cobalt Strike
+hash,d810a485ed03241b4d419b1b673bd475,AbuseIPDB,2026-08-17,113,AgentTesla
+domain,bank-verify.xyz,Internal Honeypot,2026-09-22,11,Emotet
+domain,pay-bank.ru,AlienVault OTX,2026-08-13,88,QakBot
+domain,secure-account.xyz,AbuseIPDB,2026-09-05,36,QakBot
+domain,verify-pay.click,AlienVault OTX,2026-09-25,13,QakBot
+domain,verify-bank.click,PhishTank,2026-08-26,57,Cobalt Strike
+domain,login-bank.info,PhishTank,2026-09-30,56,Mirai
+domain,secure-login.xyz,PhishTank,2026-09-12,103,None
+hash,05ad7853c1f76eb97706ca828bca0385,PhishTank,2026-08-31,5,Emotet
+ip,110.230.150.103,AbuseIPDB,2026-09-14,18,Cobalt Strike
+ip,216.197.199.15,AlienVault OTX,2026-09-23,104,LockBit
+hash,aeee6f529a279764017f2ed6cfc7403d,AbuseIPDB,2026-09-23,103,QakBot
+domain,bank-verify.top,AbuseIPDB,2026-09-14,70,None
+ip,254.237.164.177,AbuseIPDB,2026-09-02,88,LockBit
+ip,36.64.191.144,PhishTank,2026-09-03,96,Cobalt Strike
+ip,41.179.109.88,AbuseIPDB,2026-09-20,28,None

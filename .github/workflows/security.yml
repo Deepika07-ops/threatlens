@@ -1,0 +1,65 @@
+name: security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  bandit:
+    name: Bandit static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install bandit
+      - run: bandit -r backend -ll
+
+  pip-audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install pip-audit
+      - run: pip-audit -r requirements.txt
+
+  gitleaks:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  docker:
+    name: Docker build and smoke test
+    needs: [bandit, pip-audit, gitleaks]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t threatlens:ci .
+      - name: Start container
+        run: docker run -d -p 8000:8000 --name threatlens threatlens:ci
+      - name: Wait for startup
+        run: sleep 8
+      - name: Health check
+        run: curl --fail http://127.0.0.1:8000/
+      - name: Ingest and score through the running container
+        run: curl --fail -X POST http://127.0.0.1:8000/ingest/sample && curl --fail -X POST http://127.0.0.1:8000/score
+      - name: Show logs on failure
+        if: failure()
+        run: docker logs threatlens
